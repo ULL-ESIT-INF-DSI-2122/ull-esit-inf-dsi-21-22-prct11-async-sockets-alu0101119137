@@ -8,9 +8,12 @@ export class Cliente {
 
   conexion(): void {
     const client = net.connect({port: 60300});
+    let msg = '';
     client.on('data', (dataJSON) => {
-      const message = JSON.stringify(dataJSON);
-      client.write(message);
+      msg = JSON.stringify(dataJSON);
+    });
+    client.on('end', () => {
+      client.write(msg);
     });
   }
 }
