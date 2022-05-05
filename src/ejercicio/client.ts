@@ -23,8 +23,7 @@ export type RequestType = {
  * Clase cliente
  */
 export class Cliente {
-  constructor(private miPeticion: RequestType) {
-  }
+  constructor(private miPeticion: RequestType) {}
 
   conexion() {
     const client = net.connect({port: 60300});
@@ -36,9 +35,12 @@ export class Cliente {
       myResponse += trozo;
     });
 
-    client.on('end', () => {
+    client.on('error', (err) => {
+      throw err;
+    });
+
+    client.on('request', () => {
       const miRespuesta = JSON.parse(myResponse);
-      // console.log(JSON.parse(myResponse));
 
       switch (miRespuesta.type) {
         case 'add':
@@ -57,14 +59,21 @@ export class Cliente {
           }
           break;
 
-        case 'remove':
-          if (miRespuesta.success) {
-            console.log(chalk.default.green('Se ha eliminado la nota correctamente'));
-          } else {
-            console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
-          }
-          break;
-
+        // case 'remove':
+        //   if (miRespuesta.success) {
+        //     console.log(chalk.default.green('Se ha eliminado la nota correctamente'));
+        //   } else {
+        //     console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
+        //   }
+        //   break;
+        // case 'list':
+        //   if (miRespuesta.success) {
+        //     console.log(chalk.default.green('Lista de notas:'));
+        //     console.log(miRespuesta.list);
+        //   } else {
+        //     console.log(chalk.default.red('Error. No existen notas que mostrar para el usuario'));
+        //   }
+        //   break;
         default:
           break;
       }

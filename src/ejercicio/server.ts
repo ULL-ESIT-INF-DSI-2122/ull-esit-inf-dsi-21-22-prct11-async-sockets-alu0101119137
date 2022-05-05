@@ -7,6 +7,8 @@
 import * as net from 'net';
 import {Nota} from './nota';
 import {Lista} from './lista';
+
+
 const spawn = require('child_process').spawn;
 
 
@@ -18,6 +20,7 @@ export type ResponseType = {
   type: 'add' | 'update' | 'remove' | 'read' | 'list';
   success: boolean;
   notes?: Nota[];
+  list?: string[];
 }
 
 /**
@@ -77,8 +80,24 @@ export class Server {
             }
             break;
 
-          default:
-            break;
+          // case 'list':
+          //   const auxL = new Lista(myRequest.user);
+          //   if (existsSync(`./${myRequest.user}`)) {
+          //     auxL.listarTitulos();
+          //     myResponse = {type: 'list', success: true};
+          //   } else {
+          //     myResponse = {type: 'list', success: false};
+          //   }
+          //   break;
+          // case 'read':
+          //   const auxRe = new Lista(myRequest.user);
+          //   if (auxRe.findNota(myRequest.title)) {
+          //     auxRe.leerNota(myRequest.title);
+          //     myResponse = {type: 'remove', success: true, notes: []};
+          //   } else {
+          //     myResponse = {type: 'remove', success: false};
+          //   }
+          //   break;
         }
         connection.write(JSON.stringify(myResponse));
 

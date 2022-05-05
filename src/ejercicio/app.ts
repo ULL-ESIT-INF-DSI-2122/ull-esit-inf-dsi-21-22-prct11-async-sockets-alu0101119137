@@ -5,7 +5,6 @@
  */
 
 import * as yargs from 'yargs';
-import {Lista} from './lista';
 import {Cliente} from './client';
 
 /**
@@ -121,8 +120,8 @@ yargs.command({
   },
   handler(argv) {
     if (typeof argv.user === 'string') {
-      const aux = new Lista(argv.user);
-      aux.listarTitulos();
+      const myClient = new Cliente({type: 'list', user: argv.user});
+      myClient.conexion();
     }
   },
 });
@@ -132,7 +131,7 @@ yargs.command({
  */
 yargs.command({
   command: 'read',
-  describe: 'Listar todas las notas del usuario',
+  describe: 'Lee la nota de un usuario',
   builder: {
     user: {
       describe: 'Nombre de usuario',
@@ -146,11 +145,9 @@ yargs.command({
     },
   },
   handler(argv) {
-    if (typeof argv.user === 'string') {
-      if (typeof argv.title === 'string') {
-        const aux = new Lista(argv.user);
-        aux.leerNota(argv.title);
-      }
+    if (typeof argv.user === 'string' && typeof argv.title === 'string') {
+      const myClient = new Cliente({type: 'read', user: argv.user, title: argv.title});
+      myClient.conexion();
     }
   },
 });
