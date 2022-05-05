@@ -57,6 +57,14 @@ export class Cliente {
           }
           break;
 
+        case 'remove':
+          if (miRespuesta.success) {
+            console.log(chalk.default.green('Se ha eliminado la nota correctamente'));
+          } else {
+            console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
+          }
+          break;
+
         default:
           break;
       }
