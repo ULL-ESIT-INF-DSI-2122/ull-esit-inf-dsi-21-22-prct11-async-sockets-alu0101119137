@@ -5,9 +5,8 @@
  */
 
 import * as yargs from 'yargs';
-import {Nota} from './nota';
 import {Lista} from './lista';
-const spawn = require('child_process').spawn;
+import {Cliente} from './client';
 
 /**
  * Comando add para añadir una nota
@@ -38,24 +37,9 @@ yargs.command({
     },
   },
   handler(argv) {
-    if (typeof argv.user === 'string') {
-      if (typeof argv.title === 'string') {
-        if (typeof argv.body === 'string') {
-          if (typeof argv.color === 'string') {
-            const newNote = new Nota(argv.title, argv.body, argv.color);
-            let output: string = '';
-            const ls = spawn('ls');
-            ls.stdout.on('data', (data: any) => output += data);
-            const split = output.split(/\s+/);
-            const index = split.findIndex((temp) => temp === argv.user);
-            const aux = new Lista(argv.user);
-            if (index === -1) {
-              spawn('mkdir', [`${argv.user}`]);
-            }
-            aux.addNota(newNote);
-          }
-        }
-      }
+    if (typeof argv.user === 'string' && typeof argv.title === 'string' && typeof argv.body === 'string' && typeof argv.color === 'string') {
+      const myClient = new Cliente({type: 'add', user: argv.user, title: argv.title, body: argv.body, color: argv.color});
+      myClient.conexion();
     }
   },
 });
@@ -64,7 +48,7 @@ yargs.command({
  * Comando para modificar una nota
  */
 yargs.command({
-  command: 'mod',
+  command: 'update',
   describe: 'Modificar una nota',
   builder: {
     user: {
@@ -89,15 +73,9 @@ yargs.command({
     },
   },
   handler(argv) {
-    if (typeof argv.user === 'string') {
-      if (typeof argv.title === 'string') {
-        if (typeof argv.body === 'string') {
-          if (typeof argv.color === 'string') {
-            const aux = new Lista(argv.user);
-            aux.modifyNota(argv.title, argv.body, argv.color);
-          }
-        }
-      }
+    if (typeof argv.user === 'string' && typeof argv.title === 'string' && typeof argv.body === 'string' && typeof argv.color === 'string') {
+      const myClient = new Cliente({type: 'update', user: argv.user, title: argv.title, body: argv.body, color: argv.color});
+      myClient.conexion();
     }
   },
 });
@@ -121,11 +99,9 @@ yargs.command({
     },
   },
   handler(argv) {
-    if (typeof argv.user === 'string') {
-      if (typeof argv.title === 'string') {
-        const aux = new Lista(argv.user);
-        aux.deleteNota(argv.title);
-      }
+    if (typeof argv.user === 'string' && typeof argv.title === 'string') {
+      const myClient = new Cliente({type: 'remove', user: argv.user, title: argv.title});
+      myClient.conexion();
     }
   },
 });
