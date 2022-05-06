@@ -228,8 +228,15 @@ socket.on('message', (miRespuesta) => {
         console.log(chalk.default.red('Error. No existen notas que mostrar para el usuario'));
       }
       break;
+    case 'read':
+      if (miRespuesta.success) {
+        console.log(chalk.default.green('Nota:'));
+        console.log(chalk.default.keyword(miRespuesta.nota.color)(`Titulo: ${miRespuesta.nota.titulo},\nCuerpo: ${miRespuesta.nota.cuerpo}`));
+      } else {
+        console.log(chalk.default.red('Error. No existen notas que mostrar para el usuario'));
+      }
+      break;
     default:
       break;
   }
-  // console.log(JSON.parse(myResponse));
 });

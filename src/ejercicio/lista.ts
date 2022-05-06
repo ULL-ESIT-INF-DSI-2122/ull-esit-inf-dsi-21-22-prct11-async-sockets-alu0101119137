@@ -174,7 +174,7 @@ export class Lista {
       // Se añade para poder leer una nota desde el cliente
       const directorio: string = readFileSync(`./${this.userName}/${nombre}.json`, {encoding: 'utf-8'});
       const datosJSON = JSON.parse(directorio);
-      const nota: Nota = new Nota(datosJSON.title, datosJSON.body, datosJSON.color);
+      const nota: Nota = new Nota(datosJSON.Titulo, datosJSON.Cuerpo, datosJSON.Color);
       return nota;
     } else {
       console.log(chalk.default.red('Error. No existe una nota con ese nombre'));

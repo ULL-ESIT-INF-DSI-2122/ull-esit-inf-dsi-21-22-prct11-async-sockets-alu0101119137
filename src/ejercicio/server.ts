@@ -20,7 +20,7 @@ export type ResponseType = {
   type: 'add' | 'update' | 'remove' | 'read' | 'list';
   success: boolean;
   notes?: Nota[];
-  list?: string[];
+  nota?: Nota | undefined;
 }
 
 /**
@@ -88,15 +88,16 @@ const server = net.createServer((connection) => {
         }
         break;
 
-      // case 'read':
-      //   const auxRe = new Lista(myRequest.user);
-      //   if (auxRe.findNota(myRequest.title)) {
-      //     auxRe.leerNota(myRequest.title);
-      //     myResponse = {type: 'remove', success: true, notes: []};
-      //   } else {
-      //     myResponse = {type: 'remove', success: false};
-      //   }
-      //   break;
+      case 'read':
+        const auxRe = new Lista(myRequest.user);
+        let nota: Nota | undefined;
+        if (auxRe.findNota(myRequest.title)) {
+          nota = auxRe.leerNota(myRequest.title);
+          myResponse = {type: 'read', success: true, nota: nota};
+        } else {
+          myResponse = {type: 'read', success: false};
+        }
+        break;
     }
     connection.write(JSON.stringify(myResponse));
     connection.end();
