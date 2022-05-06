@@ -95,22 +95,22 @@ export class Lista {
           if (!err) {
             const dataJson = JSON.parse(data.toString());
             switch (dataJson.Color) {
-              case 'Rojo':
+              case 'red':
                 console.log(chalk.default.red(dataJson.Titulo));
                 break;
-              case 'Verde':
+              case 'green':
                 console.log(chalk.default.green(dataJson.Titulo));
                 break;
-              case 'Azul':
+              case 'blue':
                 console.log(chalk.default.blue(dataJson.Titulo));
                 break;
-              case 'Amarillo':
+              case 'yellow':
                 console.log(chalk.default.yellow(dataJson.Titulo));
                 break;
-              case 'Magenta':
+              case 'magenta':
                 console.log(chalk.default.magenta(dataJson.Titulo));
                 break;
-              case 'Cian':
+              case 'cyan':
                 console.log(chalk.default.cyan(dataJson.Titulo));
                 break;
               default:
@@ -145,22 +145,22 @@ export class Lista {
         if (!err) {
           const dataJson = JSON.parse(data.toString());
           switch (dataJson.Color) {
-            case 'Rojo':
+            case 'red':
               console.log(chalk.default.red(`Titulo: ${dataJson.Titulo}\nCuerpo: ${dataJson.Cuerpo}`));
               break;
-            case 'Verde':
+            case 'green':
               console.log(chalk.default.green(`Titulo: ${dataJson.Titulo}\nCuerpo: ${dataJson.Cuerpo}`));
               break;
-            case 'Azul':
+            case 'blue':
               console.log(chalk.default.blue(`Titulo: ${dataJson.Titulo}\nCuerpo: ${dataJson.Cuerpo}`));
               break;
-            case 'Amarillo':
+            case 'yellow':
               console.log(chalk.default.yellow(`Titulo: ${dataJson.Titulo}\nCuerpo: ${dataJson.Cuerpo}`));
               break;
-            case 'Magenta':
+            case 'magenta':
               console.log(chalk.default.magenta(`Titulo: ${dataJson.Titulo}\nCuerpo: ${dataJson.Cuerpo}`));
               break;
-            case 'Cian':
+            case 'cyan':
               console.log(chalk.default.cyan(`Titulo: ${dataJson.Titulo}\nCuerpo: ${dataJson.Cuerpo}`));
               break;
             default:

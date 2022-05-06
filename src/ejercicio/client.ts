@@ -219,11 +219,10 @@ socket.on('message', (miRespuesta) => {
       }
       break;
     case 'list':
-      console.log(miRespuesta);
       if (miRespuesta.success) {
         console.log(chalk.default.green('Lista de notas:'));
         miRespuesta.notes.forEach((element: any) => {
-          console.log(chalk.keyword(element.color)(element.titulo));
+          console.log(chalk.default.keyword(element.color)(element.titulo));
         });
       } else {
         console.log(chalk.default.red('Error. No existen notas que mostrar para el usuario'));
