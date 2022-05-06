@@ -239,7 +239,5 @@ socket.on('message', (miRespuesta) => {
         console.log(chalk.default.red('Error. No existen notas que mostrar para el usuario'));
       }
       break;
-    default:
-      break;
   }
 });
