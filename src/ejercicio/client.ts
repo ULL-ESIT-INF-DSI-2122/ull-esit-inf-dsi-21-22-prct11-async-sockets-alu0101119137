@@ -218,14 +218,17 @@ socket.on('message', (miRespuesta) => {
         console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
       }
       break;
-    // case 'list':
-    //   if (miRespuesta.success) {
-    //     console.log(chalk.default.green('Lista de notas:'));
-    //     console.log(miRespuesta.list);
-    //   } else {
-    //     console.log(chalk.default.red('Error. No existen notas que mostrar para el usuario'));
-    //   }
-    //   break;
+    case 'list':
+      console.log(miRespuesta);
+      if (miRespuesta.success) {
+        console.log(chalk.default.green('Lista de notas:'));
+        miRespuesta.notes.forEach((element: any) => {
+          console.log(chalk.keyword(element.color)(element.titulo));
+        });
+      } else {
+        console.log(chalk.default.red('Error. No existen notas que mostrar para el usuario'));
+      }
+      break;
     default:
       break;
   }

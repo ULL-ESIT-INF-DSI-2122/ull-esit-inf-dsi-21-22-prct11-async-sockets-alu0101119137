@@ -121,12 +121,12 @@ export class Lista {
         });
       });
       // Se añade para poder listar las notas en el cliente
-      const aux: string[] = readdirSync(`database/${this.userName}`);
+      const aux: string[] = readdirSync(`./${this.userName}`);
       const notas: Nota[] = [];
       aux.forEach((nota) => {
         const directorio: string = readFileSync(`./${this.userName}/${nota}`, {encoding: 'utf-8'});
         const datosJSON = JSON.parse(directorio);
-        notas.push(new Nota(datosJSON.title, datosJSON.body, datosJSON.color));
+        notas.push(new Nota(datosJSON.Titulo, datosJSON.Cuerpo, datosJSON.Color));
       });
       return notas;
     } else {

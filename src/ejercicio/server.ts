@@ -8,6 +8,7 @@ import * as net from 'net';
 import {Nota} from './nota';
 import {Lista} from './lista';
 import {ServerEmitter} from './serverEmitter';
+import {existsSync} from 'fs';
 
 const spawn = require('child_process').spawn;
 
@@ -76,15 +77,17 @@ const server = net.createServer((connection) => {
         }
         break;
 
-      // case 'list':
-      //   const auxL = new Lista(myRequest.user);
-      //   if (existsSync(`./${myRequest.user}`)) {
-      //     auxL.listarTitulos();
-      //     myResponse = {type: 'list', success: true};
-      //   } else {
-      //     myResponse = {type: 'list', success: false};
-      //   }
-      //   break;
+      case 'list':
+        const auxL = new Lista(myRequest.user);
+        let notas: Nota[] = [];
+        if (existsSync(`./${myRequest.user}`)) {
+          notas = auxL.listarTitulos();
+          myResponse = {type: 'list', success: true, notes: notas};
+        } else {
+          myResponse = {type: 'list', success: false};
+        }
+        break;
+
       // case 'read':
       //   const auxRe = new Lista(myRequest.user);
       //   if (auxRe.findNota(myRequest.title)) {
