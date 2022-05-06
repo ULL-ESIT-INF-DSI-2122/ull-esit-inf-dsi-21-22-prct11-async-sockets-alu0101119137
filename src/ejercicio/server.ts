@@ -9,9 +9,7 @@ import {Nota} from './nota';
 import {Lista} from './lista';
 import {ServerEmitter} from './serverEmitter';
 
-
 const spawn = require('child_process').spawn;
-
 
 /**
  * Tipo de datos de un respuesta
@@ -36,7 +34,6 @@ const server = net.createServer((connection) => {
    * El socket recibe un evento de tipo request del cliente
    */
   socket.on('request', (myRequest) => {
-    console.log('mi request' + myRequest);
     let myResponse: ResponseType = {type: 'add', success: false};
 
     switch (myRequest.type) {
@@ -59,15 +56,15 @@ const server = net.createServer((connection) => {
         }
         break;
 
-      // case 'update':
-      //   const auxUp = new Lista(myRequest.user);
-      //   if (auxUp.findNota(myRequest.title)) {
-      //     auxUp.modifyNota(myRequest.title, myRequest.body, myRequest.color);
-      //     myResponse = {type: 'update', success: true};
-      //   } else {
-      //     myResponse = {type: 'update', success: false};
-      //   }
-      //   break;
+      case 'update':
+        const auxUp = new Lista(myRequest.user);
+        if (auxUp.findNota(myRequest.title)) {
+          auxUp.modifyNota(myRequest.title, myRequest.body, myRequest.color);
+          myResponse = {type: 'update', success: true};
+        } else {
+          myResponse = {type: 'update', success: false};
+        }
+        break;
 
       // case 'remove':
       //   const auxR = new Lista(myRequest.user);
@@ -98,7 +95,6 @@ const server = net.createServer((connection) => {
       //   }
       //   break;
     }
-    console.log('end:' + JSON.stringify(myResponse));
     connection.write(JSON.stringify(myResponse));
     connection.end();
   });

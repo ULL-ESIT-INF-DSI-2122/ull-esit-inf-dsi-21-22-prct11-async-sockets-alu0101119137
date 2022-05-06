@@ -205,13 +205,13 @@ socket.on('message', (miRespuesta) => {
       }
       break;
 
-    // case 'update':
-    //   if (miRespuesta.success) {
-    //     console.log(chalk.default.green('Se ha modificado la nota correctamente'));
-    //   } else {
-    //     console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
-    //   }
-    //   break;
+    case 'update':
+      if (miRespuesta.success) {
+        console.log(chalk.default.green('Se ha modificado la nota correctamente'));
+      } else {
+        console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
+      }
+      break;
     // case 'remove':
     //   if (miRespuesta.success) {
     //     console.log(chalk.default.green('Se ha eliminado la nota correctamente'));
