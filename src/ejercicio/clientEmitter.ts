@@ -1,3 +1,9 @@
+/**
+ * Clase Cliente Emitter
+ * @module ClientEmitter
+ * @author Andrea Hernández Martín
+ */
+
 import {EventEmitter} from 'events';
 
 /**

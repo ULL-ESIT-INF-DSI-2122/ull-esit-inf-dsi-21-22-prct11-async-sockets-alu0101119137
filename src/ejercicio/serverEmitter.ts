@@ -1,3 +1,9 @@
+/**
+ * Clase Servidor Emitter
+ * @module ServerEmitter
+ * @author Andrea Hernández Martín
+ */
+
 import {EventEmitter} from 'events';
 
 /**

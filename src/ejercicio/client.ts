@@ -1,5 +1,5 @@
 /**
- * Práctica 10. Cliente procesamiento de notas
+ * Práctica 11. Cliente procesamiento de notas
  * @module Cliente
  * @author Andrea Hernández Martín
  */
@@ -22,6 +22,9 @@ export type RequestType = {
   color?: string;
 }
 
+/**
+ * Petición del cliente inicial
+ */
 let miPeticion: RequestType = {type: 'list', user: ''};
 
 /**

@@ -1,5 +1,5 @@
 /**
- * Práctica 10. Servidor procesamiento de notas
+ * Práctica 11. Servidor procesamiento de notas
  * @module Servidor
  * @author Andrea Hernández Martín
  */
@@ -13,7 +13,7 @@ import {existsSync} from 'fs';
 const spawn = require('child_process').spawn;
 
 /**
- * Tipo de datos de un respuesta
+ * Tipo de datos de la respuesta del servidor
  * @type
  */
 export type ResponseType = {
@@ -99,6 +99,9 @@ const server = net.createServer((connection) => {
         }
         break;
     }
+    /**
+     * Se escribe en el socket y se cierra la conexión con el cliente
+     */
     connection.write(JSON.stringify(myResponse));
     connection.end();
   });
@@ -111,7 +114,7 @@ const server = net.createServer((connection) => {
   });
 
   /**
-   * Se desconecta el cliente
+   * Se informa cuando se desconecta el cliente
    */
   connection.on('close', () => {
     console.log('A client has disconnected');
