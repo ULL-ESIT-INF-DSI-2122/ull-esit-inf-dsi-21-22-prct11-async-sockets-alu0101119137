@@ -10,7 +10,7 @@ describe('Clase cliente', () => {
   it('Emite un mensaje completo', (done) => {
     const myRequest: RequestType = {type: 'add', user: 'Andrea', title: 'Nora Amarilla', body: 'Es es una nota amarilla', color: 'Amarillo'};
     const client = new Cliente(myRequest);
-    client.conexion();
+    expect(client.conexion()).to.be.not.null;
     done();
     // client.on('message', (message) => {
     //   expect(message).to.be.eql({'type': 'change', 'prev': 13, 'curr': 26});

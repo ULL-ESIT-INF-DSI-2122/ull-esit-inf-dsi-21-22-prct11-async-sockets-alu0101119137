@@ -7,6 +7,7 @@
 import * as net from 'net';
 import {Nota} from './nota';
 import {Lista} from './lista';
+import {ServerEmitter} from './serverEmitter';
 
 
 const spawn = require('child_process').spawn;
@@ -24,94 +25,102 @@ export type ResponseType = {
 }
 
 /**
- * Clase Servidor
+ * Creación del servidor
  */
-export class Server {
-  constructor() {
-    const server = net.createServer({allowHalfOpen: true}, (connection) => {
-      console.log('A client has connected.');
+const server = net.createServer((connection) => {
+  const socket = new ServerEmitter(connection);
 
-      let myPeticion= '';
-      connection.on('data', (trozo) => {
-        myPeticion += trozo;
-      });
+  console.log('A client has connected.');
 
-      connection.on('end', () => {
-        const myRequest = JSON.parse(myPeticion);
-        let myResponse: ResponseType = {type: 'add', success: false};
+  /**
+   * El socket recibe un evento de tipo request del cliente
+   */
+  socket.on('request', (myRequest) => {
+    console.log('mi request' + myRequest);
+    let myResponse: ResponseType = {type: 'add', success: false};
 
-        switch (myRequest.type) {
-          case 'add':
-            const newNote = new Nota(myRequest.title, myRequest.body, myRequest.color);
-            let output: string = '';
-            const ls = spawn('ls');
-            ls.stdout.on('data', (data: any) => output += data);
-            const split = output.split(/\s+/);
-            const index = split.findIndex((temp) => temp === myRequest.user);
-            const aux = new Lista(myRequest.user);
-            if (index === -1) {
-              spawn('mkdir', [`${myRequest.user}`]);
-            }
-            if (!aux.findNota(newNote.getTitulo())) {
-              aux.addNota(newNote);
-              myResponse = {type: 'add', success: true, notes: [newNote]};
-            } else {
-              myResponse = {type: 'add', success: false, notes: [newNote]};
-            }
-            break;
-
-          case 'update':
-            const auxUp = new Lista(myRequest.user);
-            if (auxUp.findNota(myRequest.title)) {
-              auxUp.modifyNota(myRequest.title, myRequest.body, myRequest.color);
-              myResponse = {type: 'update', success: true};
-            } else {
-              myResponse = {type: 'update', success: false};
-            }
-            break;
-
-          case 'remove':
-            const auxR = new Lista(myRequest.user);
-            if (auxR.findNota(myRequest.title)) {
-              auxR.deleteNota(myRequest.title);
-              myResponse = {type: 'remove', success: true};
-            } else {
-              myResponse = {type: 'remove', success: false};
-            }
-            break;
-
-          // case 'list':
-          //   const auxL = new Lista(myRequest.user);
-          //   if (existsSync(`./${myRequest.user}`)) {
-          //     auxL.listarTitulos();
-          //     myResponse = {type: 'list', success: true};
-          //   } else {
-          //     myResponse = {type: 'list', success: false};
-          //   }
-          //   break;
-          // case 'read':
-          //   const auxRe = new Lista(myRequest.user);
-          //   if (auxRe.findNota(myRequest.title)) {
-          //     auxRe.leerNota(myRequest.title);
-          //     myResponse = {type: 'remove', success: true, notes: []};
-          //   } else {
-          //     myResponse = {type: 'remove', success: false};
-          //   }
-          //   break;
+    switch (myRequest.type) {
+      case 'add':
+        const newNote = new Nota(myRequest.title, myRequest.body, myRequest.color);
+        let output: string = '';
+        const ls = spawn('ls');
+        ls.stdout.on('data', (data: any) => output += data);
+        const split = output.split(/\s+/);
+        const index = split.findIndex((temp) => temp === myRequest.user);
+        const aux = new Lista(myRequest.user);
+        if (index === -1) {
+          spawn('mkdir', [`${myRequest.user}`]);
         }
-        connection.write(JSON.stringify(myResponse));
+        if (!aux.findNota(newNote.getTitulo())) {
+          aux.addNota(newNote);
+          myResponse = {type: 'add', success: true, notes: [newNote]};
+        } else {
+          myResponse = {type: 'add', success: false, notes: [newNote]};
+        }
+        break;
 
-        connection.end();
-        connection.on('close', () => {
-          console.log('A client has disconnected');
-        });
-      });
-    });
-    server.listen(60300, () => {
-      console.log('Waiting for clients to connect.');
-    });
-  }
-}
+      // case 'update':
+      //   const auxUp = new Lista(myRequest.user);
+      //   if (auxUp.findNota(myRequest.title)) {
+      //     auxUp.modifyNota(myRequest.title, myRequest.body, myRequest.color);
+      //     myResponse = {type: 'update', success: true};
+      //   } else {
+      //     myResponse = {type: 'update', success: false};
+      //   }
+      //   break;
 
-const myServer = new Server();
-myServer;
+      // case 'remove':
+      //   const auxR = new Lista(myRequest.user);
+      //   if (auxR.findNota(myRequest.title)) {
+      //     auxR.deleteNota(myRequest.title);
+      //     myResponse = {type: 'remove', success: true};
+      //   } else {
+      //     myResponse = {type: 'remove', success: false};
+      //   }
+      //   break;
+
+      // case 'list':
+      //   const auxL = new Lista(myRequest.user);
+      //   if (existsSync(`./${myRequest.user}`)) {
+      //     auxL.listarTitulos();
+      //     myResponse = {type: 'list', success: true};
+      //   } else {
+      //     myResponse = {type: 'list', success: false};
+      //   }
+      //   break;
+      // case 'read':
+      //   const auxRe = new Lista(myRequest.user);
+      //   if (auxRe.findNota(myRequest.title)) {
+      //     auxRe.leerNota(myRequest.title);
+      //     myResponse = {type: 'remove', success: true, notes: []};
+      //   } else {
+      //     myResponse = {type: 'remove', success: false};
+      //   }
+      //   break;
+    }
+    console.log('end:' + JSON.stringify(myResponse));
+    connection.write(JSON.stringify(myResponse));
+    connection.end();
+  });
+
+  /**
+   * Se controlan los errores del servidor
+   */
+  connection.on('error', (err) => {
+    console.log('Error. No se ha podido establecer la conexión.');
+  });
+
+  /**
+   * Se desconecta el cliente
+   */
+  connection.on('close', () => {
+    console.log('A client has disconnected');
+  });
+});
+
+/**
+ * Puerto de escucha del servidor
+ */
+server.listen(60300, () => {
+  console.log('Waiting for clients to connect.');
+});

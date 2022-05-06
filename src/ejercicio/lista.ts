@@ -6,7 +6,7 @@
 
 import * as chalk from "chalk";
 import {spawn} from "child_process";
-import {existsSync, readdirSync, readFile, writeFile} from "fs";
+import {existsSync, readdirSync, readFileSync, readFile, writeFile} from "fs";
 import {Nota} from "./nota";
 
 /**
@@ -87,7 +87,7 @@ export class Lista {
    * Método que muestra por consola todas las notas que tiene un usuario
    * con su color correspondiente
    */
-  listarTitulos(): void {
+  listarTitulos(): Nota[] {
     if (existsSync(`./${this.userName}`)) {
       const lista = readdirSync(`./${this.userName}`);
       lista.forEach((nota) => {
@@ -120,8 +120,18 @@ export class Lista {
           }
         });
       });
+      // Se añade para poder listar las notas en el cliente
+      const aux: string[] = readdirSync(`database/${this.userName}`);
+      const notas: Nota[] = [];
+      aux.forEach((nota) => {
+        const directorio: string = readFileSync(`./${this.userName}/${nota}`, {encoding: 'utf-8'});
+        const datosJSON = JSON.parse(directorio);
+        notas.push(new Nota(datosJSON.title, datosJSON.body, datosJSON.color));
+      });
+      return notas;
     } else {
       console.log(chalk.default.red('Error. No existen listas para este usuario'));
+      return [];
     }
   }
 
@@ -129,7 +139,7 @@ export class Lista {
    * Método que lee una nota según el nombre que se le pase
    * @param nombre Nombre de la nota que se quiere leer
    */
-  leerNota(nombre: string): void {
+  leerNota(nombre: string): Nota | undefined {
     if (this.findNota(nombre)) {
       readFile(`./${this.userName}/${nombre}.json`, (err, data) => {
         if (!err) {
@@ -161,8 +171,14 @@ export class Lista {
           console.log(chalk.default.red('Error. No se pudo leer la nota deseada'));
         }
       });
+      // Se añade para poder leer una nota desde el cliente
+      const directorio: string = readFileSync(`./${this.userName}/${nombre}.json`, {encoding: 'utf-8'});
+      const datosJSON = JSON.parse(directorio);
+      const nota: Nota = new Nota(datosJSON.title, datosJSON.body, datosJSON.color);
+      return nota;
     } else {
       console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
+      return undefined;
     }
   }
 }
