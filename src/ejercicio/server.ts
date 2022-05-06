@@ -66,15 +66,15 @@ const server = net.createServer((connection) => {
         }
         break;
 
-      // case 'remove':
-      //   const auxR = new Lista(myRequest.user);
-      //   if (auxR.findNota(myRequest.title)) {
-      //     auxR.deleteNota(myRequest.title);
-      //     myResponse = {type: 'remove', success: true};
-      //   } else {
-      //     myResponse = {type: 'remove', success: false};
-      //   }
-      //   break;
+      case 'remove':
+        const auxR = new Lista(myRequest.user);
+        if (auxR.findNota(myRequest.title)) {
+          auxR.deleteNota(myRequest.title);
+          myResponse = {type: 'remove', success: true};
+        } else {
+          myResponse = {type: 'remove', success: false};
+        }
+        break;
 
       // case 'list':
       //   const auxL = new Lista(myRequest.user);

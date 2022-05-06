@@ -195,7 +195,6 @@ client.on('error', (err) => {
  * El socket recibe un evento de tipo request (realizado en la clase ServerEmitter)
  */
 socket.on('message', (miRespuesta) => {
-  console.log(miRespuesta.type);
   switch (miRespuesta.type) {
     case 'add':
       if (miRespuesta.success) {
@@ -212,13 +211,13 @@ socket.on('message', (miRespuesta) => {
         console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
       }
       break;
-    // case 'remove':
-    //   if (miRespuesta.success) {
-    //     console.log(chalk.default.green('Se ha eliminado la nota correctamente'));
-    //   } else {
-    //     console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
-    //   }
-    //   break;
+    case 'remove':
+      if (miRespuesta.success) {
+        console.log(chalk.default.green('Se ha eliminado la nota correctamente'));
+      } else {
+        console.log(chalk.default.red('Error. No existe una nota con ese nombre'));
+      }
+      break;
     // case 'list':
     //   if (miRespuesta.success) {
     //     console.log(chalk.default.green('Lista de notas:'));
