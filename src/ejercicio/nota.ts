@@ -56,22 +56,22 @@ export class Nota {
    */
   print(): void {
     switch (this.color) {
-      case 'Rojo':
+      case 'red':
         console.log(chalk.default.red(this.getNota()));
         break;
-      case 'Verde':
+      case 'green':
         console.log(chalk.default.green(this.getNota()));
         break;
-      case 'Azul':
+      case 'blue':
         console.log(chalk.default.blue(this.getNota()));
         break;
-      case 'Amarillo':
+      case 'yellow':
         console.log(chalk.default.yellow(this.getNota()));
         break;
-      case 'Magenta':
+      case 'magenta':
         console.log(chalk.default.magenta(this.getNota()));
         break;
-      case 'Cian':
+      case 'cyan':
         console.log(chalk.default.cyan(this.getNota()));
         break;
       default:

@@ -3,17 +3,17 @@ import {expect} from 'chai';
 import {Nota} from '../../src/ejercicio/nota';
 
 describe('Tests de la clase Nota', () => {
-  const myNote = new Nota('Hola mundo', 'Practica 9 DSI', 'Magenta');
-  const myNote1 = new Nota('Hola mundo', 'Practica 9 DSI', 'Rojo');
-  const myNote2 = new Nota('Hola mundo', 'Practica 9 DSI', 'Azul');
-  const myNote3 = new Nota('Hola mundo', 'Practica 9 DSI', 'Verde');
-  const myNote4 = new Nota('Hola mundo', 'Practica 9 DSI', 'Amarillo');
-  const myNote5 = new Nota('Hola mundo', 'Practica 9 DSI', 'Cian');
-  const myNoteErr = new Nota('Hola mundo', 'Practica 9 DSI', 'Marron');
+  const myNote = new Nota('Hola mundo', 'Practica 9 DSI', 'magenta');
+  const myNote1 = new Nota('Hola mundo', 'Practica 9 DSI', 'red');
+  const myNote2 = new Nota('Hola mundo', 'Practica 9 DSI', 'blue');
+  const myNote3 = new Nota('Hola mundo', 'Practica 9 DSI', 'green');
+  const myNote4 = new Nota('Hola mundo', 'Practica 9 DSI', 'yellow');
+  const myNote5 = new Nota('Hola mundo', 'Practica 9 DSI', 'cyan');
+  const myNoteErr = new Nota('Hola mundo', 'Practica 9 DSI', 'brown');
 
   it('Se crea una clase Nota correctamente', () => {
-    expect(new Nota('Mangeta note', 'Practica 11 DSI', 'Magenta')).to.be.not.null;
-    expect(new Nota('Red note', 'Practica 11 DSI', 'Rojo')).to.be.instanceOf(Nota);
+    expect(new Nota('Mangeta note', 'Practica 11 DSI', 'magenta')).to.be.not.null;
+    expect(new Nota('Red note', 'Practica 11 DSI', 'red')).to.be.instanceOf(Nota);
   });
   it('Se accede al título de la nota correctamente', () => {
     expect(myNote.getTitulo()).to.be.equal('Hola mundo');
@@ -22,10 +22,10 @@ describe('Tests de la clase Nota', () => {
     expect(myNote.getCuerpo()).to.be.equal('Practica 9 DSI');
   });
   it('Se accede al color de la nota correctamente', () => {
-    expect(myNote.getColor()).to.be.equal('Magenta');
+    expect(myNote.getColor()).to.be.equal('magenta');
   });
   it('Se accede a la información completa de la nota correctamente', () => {
-    expect(myNote.getNota()).to.be.equal('"Titulo": "Hola mundo",\n"Cuerpo": "Practica 9 DSI",\n"Color": "Magenta"');
+    expect(myNote.getNota()).to.be.equal('"Titulo": "Hola mundo",\n"Cuerpo": "Practica 9 DSI",\n"Color": "magenta"');
   });
   it('Se imprime por consola la nota correctamente', () => {
     expect(myNote.print()).to.be.not.null;
